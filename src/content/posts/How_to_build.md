@@ -63,7 +63,7 @@ Git可以帮助我们实现GitHub仓库的代码到本地的克隆，以及之�
 # 本地部署
 之后我们点开[saicaca fuwari](https://github.com/saicaca/fuwari?tab=readme-ov-file)的项目地址
 
-![创建仓库](image.png)
+![创建仓库](How_to_build/image.png)
 点击Generate a new repository，在Repository name下填入username.github.io，之后点创建仓库。
 
 自己定一个地方，新建一个文件夹，在该路径下进入cmd
@@ -75,7 +75,7 @@ git clone https://github.com/username/username.github.io.git
 
 可以看到已经把项目拉取到本地了
 
-![克隆到本地](image-1.png)
+![克隆到本地](How_to_build/image-1.png)
 
 在这个文件夹下右键打开Git Bash
 运行
@@ -145,11 +145,11 @@ PS: 博主还在学习中，这只是一个非常简陋的实现办法 ≡(▔�
 
 之后点击 website，
 
-![alt text](image-2.png)
+![alt text](How_to_build/image-2.png)
 
 我们需要再repository这一栏填入自己的仓库名，并选择title
 
-![alt text](image-3.png)
+![alt text](How_to_build/image-3.png)
 
 在discussion分类中选择announcements
 
