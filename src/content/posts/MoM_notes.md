@@ -1,8 +1,8 @@
 ---
-title: Mixture of Memories.
+title: Mixture of Memories
 published: 2025-07-04
 description: Some notes about MoM & lolcats
-tags: [LLM, MoM, Linear attention]
+tags: [MoM, Linear attention]
 category: LLM
 draft: false
 ---
