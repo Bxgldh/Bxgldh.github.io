@@ -35,5 +35,3 @@ I am a Master student in the Department of Electrical and Computer Engineering a
 ---
 
 > "The beautiful thing about learning is that no one can take it away from you." - B.B. King
-
-不用添加额外的东西，加个背景之类的美化就行
