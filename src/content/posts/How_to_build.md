@@ -1,5 +1,5 @@
 ---
-title: How to build a website like this? Astro + Github Pages + Github Actions
+title: 手把手搭建 Astro + Github Pages + Github Actions
 published: 2025-07-03
 description: To show how I build this website.
 tags: [Blogs, Github]
@@ -21,7 +21,7 @@ Github的Pages服务，它能够将我们托管在名为`username.github.io`仓�
 
 Astro是一个现代化的 静态网站生成器，专为构建快速、内容驱动的网站而设计（如博客、文档站、营销页面等）。
 
-除此之外我们还会用到Github的Actions服务，它允许你通过编写工作流（Workflow）脚本，自动完成代码测试、构建、部署等任务。在我们推送代码到 main 分支后，会自动将静态网页部署到 GitHub Pages
+除此之外我们还会用到Github的Actions服务，它允许你通过编写工作流（Workflow）脚本，自动完成代码测试、构建、部署等任务。在我们推送代码到 main 分支后，会自动将静态网页部署到 GitHub Pages。
 
 
 # 准备工作
