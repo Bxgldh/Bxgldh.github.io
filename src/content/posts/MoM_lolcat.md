@@ -4,7 +4,7 @@ published: 2025-07-04
 description: Some notes about MoM & lolcats
 tags: [MoE, Linear attention, distillation]
 category: LLM
-draft: false
+draft: true
 ---
 
 
