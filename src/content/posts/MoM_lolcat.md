@@ -7,6 +7,12 @@ category: LLM
 draft: true
 ---
 
+Github Source: [OpenSparseLLMs
+MoM](https://github.com/OpenSparseLLMs/MoM), 
+[HazyResearch
+lolcats](https://github.com/HazyResearch/lolcats#)
+
+Paper Source: [MoM: Linear Sequence Modeling with Mixture-of-Memories](https://arxiv.org/pdf/2502.13685), [LoLCATs: On Low-Rank Linearizing of Large Language Models](https://arxiv.org/pdf/2410.10254)
 
 # Introduction
 I write this blog to record my learning route of LLM.
@@ -163,12 +169,17 @@ if __name__ == "__main__":
     test_gpu_speed()
     test_training()
 ```
-![alt text](image-1.png)
+![alt text](MoM_lolcat/image-1.png)
 
 ### git 拉取项目, 配置环境
 
-![alt text](image-2.png)
+![alt text](MoM_lolcat/image-2.png)
 
 具体的步骤参见原github项目地址 和 相关博客
 
 运行lolcats base版本
+
+现在运行MoM的代码遇到了一些问题，包括使用environment.yml进行环境配置时，conda env环境安装不到对的地方
+
+报错信息忘了记录了
+
