@@ -202,8 +202,7 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 先试一下llama3.2_1B模型
 
-HUGGINGFACE_TOKEN=
-export HUGGINGFACE_TOKEN=
+
 
 lolcats-main调用新写的linear-attention函数的顺序：
 
