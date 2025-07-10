@@ -4,7 +4,7 @@ published: 2025-07-08
 description: Some notes about Github
 tags: [Git]
 category: Github
-draft: true
+draft: false
 ---
 
 ## Push本地项目到github仓库

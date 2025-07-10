@@ -183,3 +183,183 @@ if __name__ == "__main__":
 
 报错信息忘了记录了
 
+---
+
+再战lolcats_改，先配环境
+
+flash-linear-attention    0.3.0    pypi_0    pypi
+
+transformers              4.53.1   pypi_0    pypi
+
+triton                    3.3.1    pypi_0    pypi
+
+aladdin 算力平台的使用方式 刚刚习惯
+
+wandb总是出现网络问题
+先禁用wandb
+
+export HF_ENDPOINT=https://hf-mirror.com
+
+先试一下llama3.2_1B模型
+
+HUGGINGFACE_TOKEN=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
+export HUGGINGFACE_TOKEN=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
+
+lolcats-main调用新写的linear-attention函数的顺序：
+
+llama3_2_1B.sh->
+
+distill_llama->
+
+load_model(load_and_convert_attns)->
+
+convert_model(conver_attention)
+
+当前transformers版本：
+```cmd
+python -c "import transformers; print(transformers.__version__)"
+```
+4.53.1 不兼容src/model/modeling_llama中调用的LLAMA_INPUTS_DOCSTRING常量，我暂时注释掉了
+
+#### Additional dependencies
+Flash Attention 2 install
+To do attention transfer, we train linear attentions by first computing softmax attention outputs as ``ground-truth'' targets to match. To compute these outputs with Flash Attention 2 (FA2), we recommend following Tri's default instructions here.
+
+Copying those instructions here: (1) Have packaging installed (pip install packaging). (2) Have ninja installed and working correctly (ninja --version then echo $? should return exit code 0). Otherwise reinstall with pip uninstall -y ninja && pip install ninja. (3) Install FA2 with
+
+ninja用于加速C++、Cuda代码的编译速度（对比CMake）
+
+pip install flash-attn --no-build-isolation
+
+这里报错，提示安装 flash-attn需要编译 CUDA 代码，必须有 CUDA toolkit（含 nvcc 编译器）（已解决√）
+
+环境变量 CUDA_HOME 没有设置，导致找不到 CUDA 安装路径
+
+是要运行csrc下的setup.py install吗？为什么是在flash-atten的步骤下面？
+关键运行还报错：
+
+Traceback (most recent call last):
+  File "/root/lolcats-main/csrc/setup.py", line 32, in <module>
+    arch = get_last_arch_torch()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/lolcats-main/csrc/setup.py", line 13, in get_last_arch_torch
+    arch = torch.cuda.get_arch_list()[-1]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^
+IndexError: list index out of range
+
+先运行以下，进行环境变量的设置
+
+```cmd
+export CUDA_HOME=/usr/local/cuda-12.4
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+```
+
+依然报错：
+```cmd
+(lolcats-env) root@workshop-1907bbf9-adb6-42c8-94d5-70a9200fcbae:~/lolcats-main/csrc# export CUDA_HOME=/usr/local/cuda-12.4
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+pip install --no-cache-dir --no-build-isolation flash-attn
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting flash-attn
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/32/5c/c7610beeb2fc0e70d0c09a93490bb2d07fb6c8fa1f80ef9617b0cd556d76/flash_attn-2.8.0.post2.tar.gz (7.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.9/7.9 MB 4.6 MB/s eta 0:00:00
+  Preparing metadata (setup.py) ... error
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [21 lines of output]
+      /tmp/pip-install-vz9_ilip/flash-attn_382a44717e194c1d9a602a54b145fd25/setup.py:106: UserWarning: flash_attn was requested, but nvcc was not found.  Are you sure your environment has nvcc available?  If you're installing within a container from https://hub.docker.com/r/pytorch/pytorch, only images whose names contain 'devel' will provide nvcc.
+        warnings.warn(
+      Traceback (most recent call last):
+        File "<string>", line 2, in <module>
+        File "<pip-setuptools-caller>", line 35, in <module>
+        File "/tmp/pip-install-vz9_ilip/flash-attn_382a44717e194c1d9a602a54b145fd25/setup.py", line 199, in <module>
+          CUDAExtension(
+        File "/root/miniconda3/envs/lolcats-env/lib/python3.12/site-packages/torch/utils/cpp_extension.py", line 1279, in CUDAExtension
+          library_dirs += library_paths(device_type="cuda")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/root/miniconda3/envs/lolcats-env/lib/python3.12/site-packages/torch/utils/cpp_extension.py", line 1508, in library_paths
+          if (not os.path.exists(_join_cuda_home(lib_dir)) and
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/root/miniconda3/envs/lolcats-env/lib/python3.12/site-packages/torch/utils/cpp_extension.py", line 2907, in _join_cuda_home
+          raise OSError('CUDA_HOME environment variable is not set. '
+      OSError: CUDA_HOME environment variable is not set. Please set it to your CUDA install root.
+      
+      
+      torch.__version__  = 2.7.0
+      
+      
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+```
+服了，设置完export的那三行后，要运行
+```cmd
+source ~/.bashrc
+```
+报错
+```cmd
+Requirement already satisfied: nvidia-nvjitlink-cu12==12.4.127 in ./miniconda3/lib/python3.13/site-packages (from torch->flash-attn) (12.4.127)
+Requirement already satisfied: triton==3.2.0 in ./miniconda3/lib/python3.13/site-packages (from torch->flash-attn) (3.2.0)
+Requirement already satisfied: setuptools in ./miniconda3/lib/python3.13/site-packages (from torch->flash-attn) (78.1.1)
+Requirement already satisfied: sympy==1.13.1 in ./miniconda3/lib/python3.13/site-packages (from torch->flash-attn) (1.13.1)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in ./miniconda3/lib/python3.13/site-packages (from sympy==1.13.1->torch->flash-attn) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in ./miniconda3/lib/python3.13/site-packages (from jinja2->torch->flash-attn) (3.0.2)
+Building wheels for collected packages: flash-attn
+  Building wheel for flash-attn (setup.py) ... error
+  error: subprocess-exited-with-error
+  
+  × python setup.py bdist_wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [32 lines of output]
+      No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+      
+      
+      torch.__version__  = 2.6.0+cu124
+      
+      
+      /root/miniconda3/lib/python3.13/site-packages/setuptools/__init__.py:94: _DeprecatedInstaller: setuptools.installer and fetch_build_eggs are deprecated.
+      !!
+      
+              ********************************************************************************
+              Requirements should be satisfied by a PEP 517 installer.
+              If you are using pip, you can try `pip install --use-pep517`.
+              ********************************************************************************
+      
+      !!
+        dist.fetch_build_eggs(dist.setup_requires)
+      /root/miniconda3/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: BSD License
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        self._finalize_license_expression()
+      running bdist_wheel
+      Guessing wheel URL:  https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.0.post2/flash_attn-2.8.0.post2+cu12torch2.6cxx11abiFALSE-cp313-cp313-linux_x86_64.whl
+      error: Remote end closed connection without response
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for flash-attn
+  Running setup.py clean for flash-attn
+
+Failed to build flash-attn
+ERROR: Failed to build installable wheels for some pyproject.toml based projects (flash-attn)
+```
