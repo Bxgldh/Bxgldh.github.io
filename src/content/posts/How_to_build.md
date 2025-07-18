@@ -103,33 +103,36 @@ pnpm dev
 - 在头部加入了浏览量
 - 加入了评论、表情功能(giscus组件)
 
-### 浏览量实现方法
-在`src/pages/posts/[...slug].astro`中的word count and reading time模块里加入
+### 文章浏览量实现方法（不蒜子插件）
+在`src/pages/posts/[...slug].astro`中的word count and reading time模块的最后加入
 ```html
 <!-- 新增阅读量统计 -->
 <div class="flex flex-row items-center">
-    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+  <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
     <Icon name="material-symbols:visibility-outline-rounded"></Icon>
-    </div>
-    <div class="text-sm">
-    <span id="view-counter">加载中...</span>
-    </div>
+  </div>
+  <span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span> Page Views
 </div>
 ```
-之后添加js脚本
+同文件中，添加js脚本
 ```javascript
-<script is:inline>
-// 使用 localStorage 实现简单计数（仅客户端）
-if (typeof window !== 'undefined') {
-    const key = `view-count-${window.location.pathname}`;
-    let views = localStorage.getItem(key) || 0;
-    views++;
-    localStorage.setItem(key, views);
-    document.getElementById('view-counter').textContent = `${views} 次阅读`;
-}
-</script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 ```
-PS: 博主还在学习中，这只是一个非常简陋的实现办法 ≡(▔﹏▔)≡
+实现效果如下：
+![alt text](How_to_build/image-4.png)
+
+### 总站浏览量实现方法（不蒜子插件）
+在`src/components/Footer.astro`的倒数第二个</div>上面加入：
+
+```html
+<span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv"></span> Total Visits</span>
+```
+然后在`src\layouts\MainGridLayout.astro`的</Layout>上一行加入：
+```javascript
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+```
+实现效果如下：
+![alt text](How_to_build/image-5.png)
 
 ### 评论功能实现方法
 
@@ -149,7 +152,7 @@ PS: 博主还在学习中，这只是一个非常简陋的实现办法 ≡(▔�
 
 ![alt text](How_to_build/image-2.png)
 
-我们需要在repository这一栏填入自己的仓库名，并选择title
+我们需要在repository这一栏填入`自己的用户名/仓库名`，并选择title
 
 ![alt text](How_to_build/image-3.png)
 
@@ -205,7 +208,7 @@ window.addEventListener('load', loadGiscus);
 import Giscus from "@components/Giscus.astro";
 ```
 
-然后在主体的markdown class下写
+然后在`src/pages/posts/[...slug].astro`主体的markdown class下写
 ```html
 <!-- 评论区域 -->
 <section class="comments-section mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
@@ -215,7 +218,7 @@ import Giscus from "@components/Giscus.astro";
     <Giscus />
 </section>
 ```
-css样式我就直接加了临时的，放到`</MainGridLayout>`中任意位置即可
+css样式我就直接加了临时的，放到`src/pages/posts/[...slug].astro`的`<MainGridLayout>`中任意位置即可
 
 ```css
 <style is:global>
@@ -289,8 +292,10 @@ jobs:
 ```
 
 
-如果你是第一次向github仓库push东西，需要进行以下步骤将本地的ssh密钥存到GitHub账户中。
+若第一次向github仓库push
 ---
+需要进行以下步骤将本地的ssh密钥存到GitHub账户中。
+
 如果你在不需要科学上网的地方，可以直接在进行下面第四条命令时，输入GitHub的账户和密码
 
 反之，需要在本地cmd中运行：
@@ -329,8 +334,9 @@ ssh -T git@github.com
 ```cmd
 Hi your-username! You've successfully authenticated...
 ```
-反之跳过，继续进行以下步骤
+反之跳过
 ---
+继续进行以下步骤
 
 在根目录下启动git bash，依次运行
 ```cmd

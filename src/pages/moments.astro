@@ -1,0 +1,33 @@
+---
+import MainGridLayout from '../layouts/MainGridLayout.astro';
+
+// 图片文件名（来自 public/photos）
+const photoFiles = [
+  "10000.jpg",
+  "8498797.jpg",
+  "8502651.jpg",
+  "8504945.jpg",
+  "8505167.jpg",
+  "8466203.jpg",
+  "8466205.jpg",
+  "8466221.jpg",
+];
+const photos = photoFiles.map(name => `/photos/${name}`);
+---
+
+<MainGridLayout title="Moments">
+  <div class="bg-white dark:bg-neutral-800 rounded-2xl shadow-lg p-6 transition-colors duration-300">
+    <h1 class="text-3xl font-bold text-center mb-6 text-black dark:text-white transition-colors duration-300">Moments 📸</h1>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {photos.map(photo => (
+        <div class="overflow-hidden rounded-lg shadow-lg">
+          <img
+            src={photo}
+            alt="Photo"
+            class="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</MainGridLayout>
