@@ -63,12 +63,12 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:instagram", // Visit https://icones.js.org/ for icon codes
 			// You will need to install the corresponding icon set if it's not already included
 			// `pnpm add @iconify-json/<icon-set-name>`
-			url: "https://instagram.com",
+			url: "https://www.instagram.com/steven_zl26/",
 		},
 		{
 			name: "Steam",
 			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
+			url: "https://steamcommunity.com/profiles/76561199108081037/",
 		},
 		{
 			name: "GitHub",

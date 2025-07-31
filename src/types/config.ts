@@ -91,3 +91,13 @@ export type BlogPostData = {
 export type ExpressiveCodeConfig = {
 	theme: string;
 };
+
+export type PhotoGroup = {
+  time: string;
+  location: string;
+  photos: {
+    src: string;
+    location: string;
+    time: string;
+  }[];
+}

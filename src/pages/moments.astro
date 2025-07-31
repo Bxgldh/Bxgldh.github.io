@@ -1,33 +1,89 @@
 ---
 import MainGridLayout from '../layouts/MainGridLayout.astro';
+import { getPhotoGroups } from '../utils/getPhotos';
 
-// 图片文件名（来自 public/photos）
-const photoFiles = [
-  "10000.jpg",
-  "8498797.jpg",
-  "8502651.jpg",
-  "8504945.jpg",
-  "8505167.jpg",
-  "8466203.jpg",
-  "8466205.jpg",
-  "8466221.jpg",
-];
-const photos = photoFiles.map(name => `/photos/${name}`);
+// 地点自定义描述映射
+const locationDescriptions = {
+  Zhengzhou: {
+    "2025-06-15": "郑州啊，我的家乡",
+    //"2023-10-01": "秋天再访，胡同银杏超美" 
+  },
+  Dengfeng: {
+    "2025-06-01": "和挚友一起攀登中岳嵩山"
+  },
+  Kaifeng: {
+    "2025-07-28": "和室友一起来到开封的万岁山武侠城，人真多~"
+  }
+};
+
+// 从文件夹名提取纯净地点（移除国家和省份）
+const getPureLocation = (folderName) => {
+  // 示例: "Kaifeng, Henan, CHN" → "Kaifeng"
+  return folderName.split(',')[0].trim();
+};
+
+// 获取照片组并按时间降序排序
+const photoGroups = (await getPhotoGroups()).sort((a, b) => 
+  new Date(b.time).getTime() - new Date(a.time).getTime()
+);
 ---
 
 <MainGridLayout title="Moments">
-  <div class="bg-white dark:bg-neutral-800 rounded-2xl shadow-lg p-6 transition-colors duration-300">
-    <h1 class="text-3xl font-bold text-center mb-6 text-black dark:text-white transition-colors duration-300">Moments 📸</h1>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-      {photos.map(photo => (
-        <div class="overflow-hidden rounded-lg shadow-lg">
-          <img
-            src={photo}
-            alt="Photo"
-            class="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
-          />
-        </div>
-      ))}
+  <div class="bg-white dark:bg-black rounded-2xl shadow-lg p-6 transition-colors duration-300">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+      Moments 📸
+    </h1>
+
+    <div class="mt-10">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+        Timeline
+      </h2>
+
+      <ol class="relative border-l border-gray-200 dark:border-gray-700">
+        {photoGroups.map((group) => (
+          <li class="mb-10 ml-6 group">
+            <!-- 时间点标记 -->
+            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:bg-blue-900 dark:ring-black transition-all duration-300 group-hover:bg-blue-200 dark:group-hover:bg-blue-700"></span>
+            
+            <time class="block mb-2 text-sm font-normal text-gray-500 dark:text-gray-400">
+              {group.time}
+            </time>
+            
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+              {group.location}
+            </h3>
+
+            <!-- 动态描述渲染 -->
+            <p class="text-gray-600 dark:text-gray-300 italic mb-3">
+              {
+                locationDescriptions[getPureLocation(group.location)]?.[group.time] 
+                || `在${getPureLocation(group.location)}的回忆`
+              }
+            </p>
+            
+            <!-- 图片网格 -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-2">
+              {group.photos.map((photo) => (
+                <div class="relative aspect-[4/3] overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all">
+                  <img
+                    src={photo.src}
+                    alt={`${photo.location} at ${photo.time}`}
+                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <!-- 照片数量提示 -->
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {group.photos.length > 1 
+                ? `📸 共 ${group.photos.length} 张照片`
+                : '📷 珍贵瞬间'}
+            </p>
+          </li>
+        ))}
+      </ol>
     </div>
   </div>
 </MainGridLayout>
