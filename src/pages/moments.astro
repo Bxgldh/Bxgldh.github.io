@@ -1,6 +1,7 @@
 ---
 import MainGridLayout from "../layouts/MainGridLayout.astro";
-import { getPhotoGroups, type PhotoGroup } from "../utils/GetPhotos.ts";
+import { getPhotoGroups } from "../utils/GetPhotos.ts";
+import type { PhotoGroup, Photo } from "../types/config";
 
 // 地点自定义描述映射
 const locationDescriptions: Record<string, Record<string, string>> = {
@@ -61,7 +62,7 @@ const photoGroups: PhotoGroup[] = (await getPhotoGroups()).sort(
             
             <!-- 图片网格 -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-2">
-              {group.photos.map((photo) => (
+              {group.photos.map((photo: Photo) => (
                 <div class="relative aspect-[4/3] overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all">
                   <img
                     src={photo.src}
