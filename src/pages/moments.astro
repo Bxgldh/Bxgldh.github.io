@@ -1,7 +1,7 @@
 ---
 import MainGridLayout from "../layouts/MainGridLayout.astro";
+import type { Photo, PhotoGroup } from "../types/config";
 import { getPhotoGroups } from "../utils/GetPhotos.ts";
-import type { PhotoGroup, Photo } from "../types/config";
 
 // 地点自定义描述映射
 const locationDescriptions: Record<string, Record<string, string>> = {

@@ -386,6 +386,7 @@ This is deprecated ...
 原作者可能忘记了。
 如果你加了一些内容，出现类似的情况，进行改正即可
 
+--- 
 上传后，Github上可能也会报一些错，例如：
 ```cmd
 Run biome ci ./src --reporter=github
@@ -397,10 +398,20 @@ ci ━━━━━━━━━━━━━━━━━━━━━━━━━�
 
 Notice: Missing radix parameter
 ```
-这是文件格式不标准导致的，在本地项目的根目录运行这个命令即可:
+
+原因：在代码里用了 parseInt(...)，但没有指定进制。
+
+修复：全局搜索parseInt(...)，统一加上 , 10
+
+或者在本地项目的根目录运行这个命令（我试了不管用）:
 ```cmd
 pnpm biome format ./src --write
 ```
+还有一种是：
+```cmd
+The imports and exports are not sorted.
+```
+搜一下解决方式，一般是把import的包按字母顺序排列...很扯
 
 --- 
 
