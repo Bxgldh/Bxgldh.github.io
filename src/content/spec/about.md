@@ -1,3 +1,9 @@
+---
+title: "About Me"
+description: "个人简介与简历信息"
+resume: "https://yourdomain.com/resume.pdf"  # 这里放在线简历的链接（可选）
+---
+
 # About Me ✨
 
 I'm a boy from Zhengzhou, Henan Province, China.
