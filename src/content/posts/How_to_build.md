@@ -116,7 +116,7 @@ pnpm dev
 ```
 同文件中，添加js脚本
 ```javascript
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script is:inline async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 ```
 实现效果如下：
 ![alt text](How_to_build/image-4.png)
@@ -129,7 +129,7 @@ pnpm dev
 ```
 然后在`src\layouts\MainGridLayout.astro`的</Layout>上一行加入：
 ```javascript
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script is:inline async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 ```
 实现效果如下：
 ![alt text](How_to_build/image-5.png)
@@ -360,3 +360,26 @@ git push origin main
 实现方法：
 
 施工中
+
+# 2025年9月18日更新
+
+本人苦恼于github上部署时的报错，今天终于解决。
+
+报错类型一部分原因来自于：
+1. npm版本，以及项目的依赖 需更新
+2. 原模版中存在的错误：
+
+例如
+```cmd
+Auto-generating collections for folders in "src/content/" that are not defined as collections.
+This is deprecated ...
+```
+
+可以使用这个命令：
+```cmd
+pnpm astro check
+```
+在本地项目的根目录运行，查看是否有报错（图中已修复）
+![alt text](how_to_build/check.png)
+
+后续会将 访问量 和 Moments模块中的数据 迁移到数据库，届时也会同步教程

@@ -55,8 +55,8 @@ const photoGroups: PhotoGroup[] = (await getPhotoGroups()).sort(
             <!-- 动态描述渲染 -->
             <p class="text-gray-600 dark:text-gray-300 italic mb-3">
               {
-                locationDescriptions[getPureLocation(group.location)]?.[group.time] 
-                || `在${getPureLocation(group.location)}的回忆`
+                locationDescriptions[getPureLocation(group.location)]?.[group.time as string]
+                  || `在${getPureLocation(group.location)}的回忆`
               }
             </p>
             

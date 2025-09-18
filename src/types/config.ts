@@ -92,12 +92,17 @@ export type ExpressiveCodeConfig = {
 	theme: string;
 };
 
-export type PhotoGroup = {
-	time: string;
-	location: string;
-	photos: {
-		src: string;
-		location: string;
-		time: string;
-	}[];
+// 单张照片
+export type Photo = {
+  src: string;
+  location: string;
+  time: string;
 };
+
+// 照片组（按时间 + 地点分组）
+export type PhotoGroup = {
+  time: string;
+  location: string;
+  photos: Photo[];
+};
+
