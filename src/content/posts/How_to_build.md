@@ -369,11 +369,6 @@ git push origin main
 1. npm版本，以及项目的依赖 需更新
 2. 原模版中存在的错误：
 
-例如
-```cmd
-Auto-generating collections for folders in "src/content/" that are not defined as collections.
-This is deprecated ...
-```
 
 可以使用这个命令：
 ```cmd
@@ -381,5 +376,32 @@ pnpm astro check
 ```
 在本地项目的根目录运行，查看是否有报错（图中已修复）
 ![alt text](How_to_build/check.png)
+
+例如：
+```cmd
+Auto-generating collections for folders in "src/content/" that are not defined as collections.
+This is deprecated ...
+```
+说明你有一个 src/content/spec 文件夹，但没有在 src/content/config.ts 里显式定义。
+原作者可能忘记了。
+如果你加了一些内容，出现类似的情况，进行改正即可
+
+上传后，Github上可能也会报一些错，例如：
+```cmd
+Run biome ci ./src --reporter=github
+Notice: Missing radix parameter
+ci ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+Notice: Missing radix parameter
+```
+这是文件格式不标准导致的，在本地项目的根目录运行这个命令即可:
+```cmd
+pnpm biome format ./src --write
+```
+
+--- 
 
 后续会将 访问量 和 Moments模块中的数据 迁移到数据库，届时也会同步教程
