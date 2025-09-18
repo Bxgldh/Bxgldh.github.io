@@ -380,6 +380,6 @@ This is deprecated ...
 pnpm astro check
 ```
 在本地项目的根目录运行，查看是否有报错（图中已修复）
-![alt text](how_to_build/check.png)
+![alt text](How_to_build/check.png)
 
 后续会将 访问量 和 Moments模块中的数据 迁移到数据库，届时也会同步教程
