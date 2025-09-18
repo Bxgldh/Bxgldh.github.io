@@ -93,11 +93,11 @@ export type ExpressiveCodeConfig = {
 };
 
 export type PhotoGroup = {
-  time: string;
-  location: string;
-  photos: {
-    src: string;
-    location: string;
-    time: string;
-  }[];
-}
+	time: string;
+	location: string;
+	photos: {
+		src: string;
+		location: string;
+		time: string;
+	}[];
+};

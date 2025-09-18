@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let photos: string[] = [];
+export let photos: string[] = [];
 </script>
 
 <style>

@@ -14,6 +14,7 @@ export async function getSortedPosts() {
 		return dateA > dateB ? -1 : 1;
 	});
 
+	// 给每篇文章加上 prev/next
 	for (let i = 1; i < sorted.length; i++) {
 		sorted[i].data.nextSlug = sorted[i - 1].slug;
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
@@ -37,14 +38,16 @@ export async function getTagList(): Promise<Tag[]> {
 	});
 
 	const countMap: { [key: string]: number } = {};
-	allBlogPosts.map((post: { data: { tags: string[] } }) => {
-		post.data.tags.map((tag: string) => {
+
+	// ✅ 用 forEach 替代 map
+	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
+		post.data.tags.forEach((tag: string) => {
 			if (!countMap[tag]) countMap[tag] = 0;
 			countMap[tag]++;
 		});
 	});
 
-	// sort tags
+	// 排序标签
 	const keys: string[] = Object.keys(countMap).sort((a, b) => {
 		return a.toLowerCase().localeCompare(b.toLowerCase());
 	});
@@ -62,8 +65,11 @@ export async function getCategoryList(): Promise<Category[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
+
 	const count: { [key: string]: number } = {};
-	allBlogPosts.map((post: { data: { category: string | null } }) => {
+
+	// ✅ 用 forEach 替代 map
+	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {
 			const ucKey = i18n(I18nKey.uncategorized);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
@@ -78,10 +84,12 @@ export async function getCategoryList(): Promise<Category[]> {
 		count[categoryName] = count[categoryName] ? count[categoryName] + 1 : 1;
 	});
 
+	// 排序分类
 	const lst = Object.keys(count).sort((a, b) => {
 		return a.toLowerCase().localeCompare(b.toLowerCase());
 	});
 
+	// 构造 Category[]
 	const ret: Category[] = [];
 	for (const c of lst) {
 		ret.push({
@@ -90,5 +98,6 @@ export async function getCategoryList(): Promise<Category[]> {
 			url: getCategoryUrl(c),
 		});
 	}
+
 	return ret;
 }
