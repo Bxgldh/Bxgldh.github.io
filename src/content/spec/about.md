@@ -13,7 +13,7 @@ Writing code is a process of exploration and discovery, and I enjoy the sense of
 ---
 
 ## 📄 CV
-**My Resume Link**: 👉 [here](https://yourdomain.com/resume.pdf)
+**My Resume Link**: 👉 [here](https://resume.pdf)
 
 **Name**: Zhenglong Liu  
 **Label**: Master Student  
