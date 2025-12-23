@@ -469,3 +469,62 @@ q默认都是share的
 
 ![image-20251210214401557](transformers/image-20251210214401557.png)
 
+
+
+四组实验distill+ft结束：
+
+![image-20251211155216176](transformers/image-20251211155216176.png)
+
+![image-20251211155230615](transformers/image-20251211155230615.png)
+
+![image-20251211155317573](transformers/image-20251211155317573.png)
+
+现在开始尝试eval：
+
+![image-20251213223600929](transformers/image-20251213223600929.png)
+
+结果如图，总体效果还是baseline的最好，和ft_loss的结果几乎一致
+
+（当时说feature_map要加在哪？）
+
+
+
+记录一下：
+
+1. **为什么大模型大多使用BF16精度？它和普通的float16有什么不同？**https://zhuanlan.zhihu.com/p/692410068
+2. moe模型的lora，要如何设置？https://blog.csdn.net/Javachichi/article/details/148698034 ，https://zhuanlan.zhihu.com/p/683637455
+3. mom_attn的lora_target_modules，除了qkvo还要加什么？==试试再加入router的gate==
+4. 要搞清楚，moe代替的是transformers中传统的mlp层
+5. Src/model/peft.py 可能需要修改，从而解冻一些层？是的，应该还需要深入的检查一下，==到底哪些参数被解冻==
+
+终于，有了突破：
+
+![image-20251222104548528](transformers/image-20251222104548528.png)
+
+当前参数：
+
+```
+finetune:
+  method: lora
+  kwargs:
+    r: 8
+    lora_alpha: 16
+    lora_dropout: 0 # 0.05
+    target_modules: ["q_proj", "k_proj.0", "k_proj.1", "k_proj.2", "k_proj.3", "v_proj.0", "v_proj.1", "v_proj.2","v_proj.3", "o_proj", "gate", "shared_k", "shared_v", "g_proj"]
+```
+
+期间发现的问题：==如果不从头ditstill+finetune，而是加载distill的checkpoint后finetune的话，会出现左半边的情况，不知道为什么==
+
+
+
+接下来，试一下niah task，测试模型的长上下文能力：
+
+passkey_retrivial.h 
+
+遇到了之前eval时：
+
+```cmd
+TypeError: tuple indices must be integers or slices, not str
+```
+
+这个错误，原因是在attn层时，返回的str的dict类型，而huggingface默认使用的是tuple

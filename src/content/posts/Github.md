@@ -7,7 +7,7 @@ category: Github
 draft: false
 ---
 
-## Push本地项目到github仓库
+## Push本地项目到Github仓库
 ```cmd
 cd my-project
 git init
@@ -18,3 +18,4 @@ git branch -M main
 git push -u origin main
 ```
 
+## 从GitHub仓库pull到本地

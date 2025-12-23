@@ -2,8 +2,8 @@
 title: Hash Map
 published: 2025-10-07
 description: Theory & application of HashMap.
-tags: [Algorithm, HashMap]
-category: Blogs
+tags: [HashMap]
+category: Algorithm
 draft: false
 ---
 

@@ -6,7 +6,7 @@ resume: "https://yourdomain.com/resume.pdf"  # 这里放在线简历的链接（
 
 # About Me ✨
 
-I'm a boy from Zhengzhou, Henan Province, China.
+Hi! I'm from Zhengzhou, Henan Province, China.
 
 Writing code is a process of exploration and discovery, and I enjoy the sense of accomplishment brought by successful operation. I hope all of you who chose this path can achieve success and shine in the field you love!
 

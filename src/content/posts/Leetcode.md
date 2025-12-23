@@ -3,30 +3,20 @@ title: LeetCode刷题小结
 published: 2025-07-18
 description: Some notes about Algorithm
 tags: [Binary Tree, Hash, Two pointers]
-category: Leetcode
+category: Algorithm
 draft: false
 ---
 
 知识来源：[labuladong的算法笔记](https://labuladong.online/algo/data-structure-basic/binary-tree-basic/)
 
-# C++基础
-关于一些常见用法的说明
-
-## for循环
-   
-for(int num : nums) 拷贝
-
-for(const int& num : nums) 引用+只读，虽然修改不了，但是避免了拷贝，节省开销
-
-for(string& s : strs ) 引用
-
-PS：关于引用&，在数据较大时，拷贝创建副本会占用更多的内存，且原数据不会被修改
+==考虑通过pdf阅览的方式，把笔记传上去==
 
 
 # 二叉树
 ### 满二叉树(Perfect Binary Tree)
 所有父节点都有两个子节点
 节点数：等比数列求和 n = 2^h - 1，h代表树的深度
+
 ### 完全二叉树(Complete Binary Tree)
 每一层的节点都紧凑靠左排列，且除了最后一层，其他每层都必须是满的。
 
@@ -322,3 +312,14 @@ public:
 };
 
 ```
+
+# 滑动窗口
+
+
+
+# 字符串、子串
+
+
+
+# 动态规划
+
