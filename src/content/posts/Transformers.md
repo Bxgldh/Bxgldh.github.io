@@ -528,3 +528,7 @@ TypeError: tuple indices must be integers or slices, not str
 ```
 
 这个错误，原因是在attn层时，返回的str的dict类型，而huggingface默认使用的是tuple
+
+
+下一步任务：
+
