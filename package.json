@@ -19,7 +19,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.1",
-    "@astrojs/svelte": "7.1.0",
+    "@astrojs/svelte": "7.2.0",
     "@astrojs/tailwind": "^6.0.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
